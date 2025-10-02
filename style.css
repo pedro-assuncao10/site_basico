@@ -1,0 +1,123 @@
+/* Reset básico e configurações do corpo */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5; /* Um cinza claro para o fundo geral */
+}
+
+/* Estilo do Cabeçalho */
+.header {
+    background-color: #000000;
+    padding: 20px;
+    text-align: center;
+}
+
+.header-logo {
+    max-width: 350px; /* Ajuste o tamanho conforme necessário */
+    width: 100%;
+}
+
+/* Estilo do Conteúdo Principal */
+.main-content {
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.main-content h1 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* Container dos Botões de Link */
+.link-buttons {
+    max-width: 680px;
+    margin: 0 auto 30px auto; /* Centraliza a caixa de botões */
+}
+
+.button {
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button:hover {
+    transform: scale(1.03); /* Efeito de zoom ao passar o mouse */
+}
+
+/* Ícones dentro dos botões */
+.button i {
+    margin-right: 10px;
+}
+
+/* Cores específicas de cada botão */
+#btn-horario { background-color: #d4b352; }
+#btn-whatsapp { background-color: #25d366; }
+#btn-catalogo { background-color: #33a6b5; }
+#btn-instagram { background-color: #e4405f; }
+#btn-delivery { background-color: #4665a0; }
+#btn-grupo { background-color: #25d366; }
+#btn-endereco { background-color: #00a8e8; }
+
+/* Estilo da Galeria de Fotos */
+.gallery {
+    max-width: 680px;
+    height: 500px; /* Defina uma altura para a galeria */
+    margin: auto; /* Centraliza a galeria */
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem cubra todo o espaço sem distorcer */
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.gallery-image.active {
+    opacity: 1; /* Torna a imagem ativa visível */
+}
+
+/* Estilo do Rodapé */
+.footer {
+    background-color: #000000; /* PRETO SÓLIDO */
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+}
+
+.footer-logo {
+    width: 80px; /* Tamanho da logo pequena no rodapé */
+    margin-bottom: 15px;
+}
+
+.footer p {
+    margin: 0 0 15px 0;
+    font-size: 0.9rem;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 1.5rem; /* Tamanho dos ícones */
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    color: #cccccc;
+}
