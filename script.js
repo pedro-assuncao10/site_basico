@@ -1,93 +1,98 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- SELEÇÕES ---
+    // --- LÓGICA DA GALERIA ---
     const images = document.querySelectorAll('.gallery-image');
     const prevBtn = document.querySelector('.gallery-btn.prev');
     const nextBtn = document.querySelector('.gallery-btn.next');
 
-    // Segurança: se não houver imagens, aborta
-    if (!images || images.length === 0) return;
+    if (images && images.length > 0) {
+        let currentIndex = 0;
+        let autoplayIntervalId = null;
+        const AUTOPLAY_DELAY = 3000;
 
-    let currentIndex = 0;
-    let autoplayIntervalId = null;
-    const AUTOPLAY_DELAY = 3000;
+        const showImage = (index) => {
+            images.forEach(img => img.classList.remove('active'));
+            images[index].classList.add('active');
+        };
 
-    // --- FUNÇÕES DE EXIBIÇÃO ---
-    const showImage = (index) => {
-        images.forEach(img => img.classList.remove('active'));
-        images[index].classList.add('active');
-    };
+        const showNextImage = () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+        };
 
-    const showNextImage = () => {
-        currentIndex = (currentIndex + 1) % images.length;
+        const showPrevImage = () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(currentIndex);
+        };
+
+        const startAutoPlay = () => {
+            stopAutoPlay();
+            autoplayIntervalId = setInterval(showNextImage, AUTOPLAY_DELAY);
+        };
+
+        const stopAutoPlay = () => {
+            if (autoplayIntervalId !== null) {
+                clearInterval(autoplayIntervalId);
+                autoplayIntervalId = null;
+            }
+        };
+
         showImage(currentIndex);
-    };
+        startAutoPlay();
 
-    const showPrevImage = () => {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
-    };
-
-    // --- AUTOPLAY CONTROLE ---
-    const startAutoPlay = () => {
-        stopAutoPlay(); // evita intervalos duplicados
-        autoplayIntervalId = setInterval(showNextImage, AUTOPLAY_DELAY);
-    };
-
-    const stopAutoPlay = () => {
-        if (autoplayIntervalId !== null) {
-            clearInterval(autoplayIntervalId);
-            autoplayIntervalId = null;
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                stopAutoPlay();
+                showNextImage();
+                startAutoPlay();
+            });
         }
-    };
 
-    // Inicia com a imagem inicial correta (caso o HTML defina outra)
-    showImage(currentIndex);
-    startAutoPlay();
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                stopAutoPlay();
+                showPrevImage();
+                startAutoPlay();
+            });
+        }
 
-    // --- EVENTOS DOS BOTÕES (se existirem) ---
-    if (nextBtn) {
-        nextBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            stopAutoPlay();
-            showNextImage();
-            startAutoPlay();
-        });
+        const galleryEl = document.querySelector('.gallery');
+        if (galleryEl) {
+            galleryEl.addEventListener('mouseenter', stopAutoPlay);
+            galleryEl.addEventListener('mouseleave', startAutoPlay);
+        }
     }
 
-    if (prevBtn) {
-        prevBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            stopAutoPlay();
-            showPrevImage();
-            startAutoPlay();
-        });
-    }
-
-    // Opcional: pausa ao entrar com o mouse sobre a galeria e retoma ao sair
-    const galleryEl = document.querySelector('.gallery');
-    if (galleryEl) {
-        galleryEl.addEventListener('mouseenter', stopAutoPlay);
-        galleryEl.addEventListener('mouseleave', startAutoPlay);
-    }
-
-    // --- RESTANTE DO CÓDIGO (modal) ---
+    // --- LÓGICA DO MODAL DE HORÁRIO DE FUNCIONAMENTO ---
     const modal = document.getElementById('horarioModal');
     const botaoHorario = document.getElementById('btn-horario');
     const closeButton = document.querySelector('.close-button');
 
+    // Verifica se os elementos do modal existem na página
     if (modal && botaoHorario && closeButton) {
-        const abrirModal = () => (modal.style.display = 'block');
-        const fecharModal = () => (modal.style.display = 'none');
+        // Função para abrir o modal
+        const abrirModal = (event) => {
+            event.preventDefault(); // Impede o link de navegar para '#'
+            modal.style.display = 'block';
+        };
 
-        botaoHorario.addEventListener('click', (event) => {
-            event.preventDefault();
-            abrirModal();
-        });
+        // Função para fechar o modal
+        const fecharModal = () => {
+            modal.style.display = 'none';
+        };
 
+        // Adiciona o evento de clique ao botão "Horário de Funcionamento"
+        botaoHorario.addEventListener('click', abrirModal);
+
+        // Adiciona o evento de clique ao botão de fechar (o 'X')
         closeButton.addEventListener('click', fecharModal);
 
+        // Adiciona um evento para fechar o modal se o usuário clicar fora da caixa de conteúdo
         window.addEventListener('click', (event) => {
-            if (event.target === modal) fecharModal();
+            if (event.target === modal) {
+                fecharModal();
+            }
         });
     }
 });
